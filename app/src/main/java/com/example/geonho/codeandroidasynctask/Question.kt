@@ -1,10 +1,10 @@
 package com.example.geonho.codeandroidasynctask
 
 class Question{
-    var Question : String = ""
-    var Option1 : String  = ""
-    var Option2 : String = ""
-    var Option3 : String = ""
-    var Option4 : String = ""
-    var Answer : Int = 0
+    var question : String = ""
+    var option1 : String  = ""
+    var option2 : String = ""
+    var option3 : String = ""
+    var option4 : String = ""
+    var answer : Int = 0
 }

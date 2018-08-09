@@ -27,25 +27,29 @@ class QuestionActivity : AppCompatActivity() {
     var index = -1
     var score = 0
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_question)
+
+        init()
+        getQuestions().execute()
+    }
+
+    fun init(){
+        nextButton.isEnabled = false
+        nextButton.alpha = 0.1.toFloat()
+    }
+
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question)
-
-        nextButton.isEnabled = false
-        nextButton.alpha = 0.1.toFloat()
-        getQuestions().execute()
-    }
-
     override fun onBackPressed() {
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Are you sure !")
-        dialog.setMessage("Do you want to quit the application ?")
+        dialog.setMessage("Do you want to stop?")
         dialog.setPositiveButton("Yes") {
             dialog, which -> dialog.dismiss()
             super.onBackPressed()
@@ -65,29 +69,29 @@ class QuestionActivity : AppCompatActivity() {
         if (index < Questionlist.size) {
             when (selected) {
                 choice1.id -> {
-                    if (Questionlist[index].Answer == 1)
+                    if (Questionlist[index].answer == 1)
                         score++
                 }
                 choice2.id -> {
-                    if (Questionlist[index].Answer == 2)
+                    if (Questionlist[index].answer == 2)
                         score++
                 }
                 choice3.id -> {
-                    if (Questionlist[index].Answer == 3)
+                    if (Questionlist[index].answer == 3)
                         score++
                 }
                 choice4.id -> {
-                    if (Questionlist[index].Answer == 4)
+                    if (Questionlist[index].answer == 4)
                         score++
                 }
             }
             index++
             if (index < Questionlist.size) {
-                questionText.text = Questionlist[index].Question
-                choice1.text = Questionlist[index].Option1
-                choice2.text = Questionlist[index].Option2
-                choice3.text = Questionlist[index].Option3
-                choice4.text = Questionlist[index].Option4
+                questionText.text = Questionlist[index].question
+                choice1.text = Questionlist[index].option1
+                choice2.text = Questionlist[index].option2
+                choice3.text = Questionlist[index].option3
+                choice4.text = Questionlist[index].option4
                 choiceGroup.clearCheck()
                 if ((index + 1) == Questionlist.size)
                     nextButton.text = "Finish"
@@ -116,15 +120,15 @@ class QuestionActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg params: Void?): String {
-            if (isNetworkAvailable()) {
+            return if (isNetworkAvailable()) {
                 hasInternet = true
                 val client = OkHttpClient()
-                val url = "https://script.googleusercontent.com/macros/echo?user_content_key=1tgBN-ES-vsiLin8Lggs7R094sUSEWlBY3Lv7yLt0KnrexUuaTvreORsTenxGH0HaPDQ0rUkXVqmkc903P_gQrpXCbi98gcsm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBg4Wj9So2Q_mI0_S0Bm21-AGmcRnplmVaRcxvVzvCi9cnQQJegsnVb9TgJzPufw35cdv3aNHr6K&lib=MKMzvVvSFmMa3ZLOyg67WCThf1WVRYg6Z"
+                val url = resources.getString(R.string.server)
                 val request = Request.Builder().url(url).build()
                 val response = client.newCall(request).execute()
-                return response.body()?.string().toString()
+                response.body()?.string().toString()
             } else {
-                return "Please check your network connection."
+                "Please check your network connection."
             }
         }
 
@@ -136,40 +140,30 @@ class QuestionActivity : AppCompatActivity() {
                     for (i in 0..(resultArray.length() - 1)) {
                         val currentObject = resultArray.getJSONObject(i)
                         val obj = Question()
-                        obj.Question = currentObject.getString("Question")
-                        obj.Option1 = currentObject.getString("Option1")
-                        obj.Option2 = currentObject.getString("Option2")
-                        obj.Option3 = currentObject.getString("Option3")
-                        obj.Option4 = currentObject.getString("Option4")
-                        obj.Answer = currentObject.getInt("Answer")
+                        obj.question = currentObject.getString("Question")
+                        obj.option1 = currentObject.getString("Option1")
+                        obj.option2 = currentObject.getString("Option2")
+                        obj.option3 = currentObject.getString("Option3")
+                        obj.option4 = currentObject.getString("Option4")
+                        obj.answer = currentObject.getInt("Answer")
                         Questionlist.add(obj)
                     }
                     if (index == -1) {
                         index++
-                        Log.d("result", "Question : " + Questionlist[index].Question)
-                        questionText.text = Questionlist[index].Question
-                        choice1.text = Questionlist[index].Option1
-                        choice2.text = Questionlist[index].Option2
-                        choice3.text = Questionlist[index].Option3
-                        choice4.text = Questionlist[index].Option4
+                        Log.d("result", "Question : " + Questionlist[index].question)
+                        questionText.text = Questionlist[index].question
+                        choice1.text = Questionlist[index].option1
+                        choice2.text = Questionlist[index].option2
+                        choice3.text = Questionlist[index].option3
+                        choice4.text = Questionlist[index].option4
                     } else {
                         Log.d("result", "index : $index")
-                        UpdateQuestion()
                     }
 
                     nextButton.isEnabled = true
                     nextButton.alpha = 1.toFloat()
                     nextButton.setOnClickListener {
-                        if (index == -1) {
-                            index++
-                            questionText.text = Questionlist[index].Question
-                            choice1.text = Questionlist[index].Option1
-                            choice2.text = Questionlist[index].Option2
-                            choice3.text = Questionlist[index].Option3
-                            choice4.text = Questionlist[index].Option4
-                        } else {
-                            UpdateQuestion()
-                        }
+                        UpdateQuestion()
                     }
                     Log.d("result", "result : $result")
                 } catch (e: JSONException) {
