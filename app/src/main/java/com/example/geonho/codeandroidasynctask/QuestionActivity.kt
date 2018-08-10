@@ -23,7 +23,7 @@ import android.widget.Toast
 
 class QuestionActivity : AppCompatActivity() {
 
-    var Questionlist: MutableList<Question> = ArrayList()
+    var questionList: MutableList<Question> = ArrayList()
     var index = -1
     var score = 0
 
@@ -35,7 +35,7 @@ class QuestionActivity : AppCompatActivity() {
         getQuestions().execute()
     }
 
-    fun init(){
+    private fun init(){
         nextButton.isEnabled = false
         nextButton.alpha = 0.1.toFloat()
     }
@@ -60,48 +60,47 @@ class QuestionActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun UpdateQuestion() {
+    fun updateQuestion() {
         val selected = choiceGroup.checkedRadioButtonId
         if (selected == -1) {
             Toast.makeText(this, "Please select a option.", Toast.LENGTH_SHORT).show()
             return
         }
-        if (index < Questionlist.size) {
+        if (index < questionList.size) {
             when (selected) {
                 choice1.id -> {
-                    if (Questionlist[index].answer == 1)
+                    if (questionList[index].answer == 1)
                         score++
                 }
                 choice2.id -> {
-                    if (Questionlist[index].answer == 2)
+                    if (questionList[index].answer == 2)
                         score++
                 }
                 choice3.id -> {
-                    if (Questionlist[index].answer == 3)
+                    if (questionList[index].answer == 3)
                         score++
                 }
                 choice4.id -> {
-                    if (Questionlist[index].answer == 4)
+                    if (questionList[index].answer == 4)
                         score++
                 }
             }
             index++
-            if (index < Questionlist.size) {
-                questionText.text = Questionlist[index].question
-                choice1.text = Questionlist[index].option1
-                choice2.text = Questionlist[index].option2
-                choice3.text = Questionlist[index].option3
-                choice4.text = Questionlist[index].option4
+            if (index < questionList.size) {
+                questionText.text = questionList[index].question
+                choice1.text = questionList[index].option1
+                choice2.text = questionList[index].option2
+                choice3.text = questionList[index].option3
+                choice4.text = questionList[index].option4
                 choiceGroup.clearCheck()
-                if ((index + 1) == Questionlist.size)
+                if ((index + 1) == questionList.size)
                     nextButton.text = "Finish"
             } else {
                 val preferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val editor = preferences.edit()
                 editor.putInt("pastScore", score)
                 editor.apply()
-                val i = Intent(this@QuestionActivity, MainActivity::class.java)
-                startActivity(i)
+                startActivity(Intent(this@QuestionActivity, MainActivity::class.java))
                 finish()
             }
         }
@@ -146,16 +145,16 @@ class QuestionActivity : AppCompatActivity() {
                         obj.option3 = currentObject.getString("Option3")
                         obj.option4 = currentObject.getString("Option4")
                         obj.answer = currentObject.getInt("Answer")
-                        Questionlist.add(obj)
+                        questionList.add(obj)
                     }
                     if (index == -1) {
                         index++
-                        Log.d("result", "Question : " + Questionlist[index].question)
-                        questionText.text = Questionlist[index].question
-                        choice1.text = Questionlist[index].option1
-                        choice2.text = Questionlist[index].option2
-                        choice3.text = Questionlist[index].option3
-                        choice4.text = Questionlist[index].option4
+                        Log.d("result", "Question : " + questionList[index].question)
+                        questionText.text = questionList[index].question
+                        choice1.text = questionList[index].option1
+                        choice2.text = questionList[index].option2
+                        choice3.text = questionList[index].option3
+                        choice4.text = questionList[index].option4
                     } else {
                         Log.d("result", "index : $index")
                     }
@@ -163,7 +162,7 @@ class QuestionActivity : AppCompatActivity() {
                     nextButton.isEnabled = true
                     nextButton.alpha = 1.toFloat()
                     nextButton.setOnClickListener {
-                        UpdateQuestion()
+                        updateQuestion()
                     }
                     Log.d("result", "result : $result")
                 } catch (e: JSONException) {

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setListeners()
     }
 
-    fun init(){
+    private fun init(){
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val pastScore = preferences.getInt("pastScore", 0)
         val text = "Past Score : $pastScore"
@@ -29,20 +29,19 @@ class MainActivity : AppCompatActivity() {
         ratingBar.rating = pastScore.toFloat()
     }
 
-    fun setListeners(){
+    private fun setListeners(){
         startButton.setOnClickListener {
-            val i = Intent(this@MainActivity, QuestionActivity::class.java)
-            startActivity(i)
+            startActivity(Intent(this@MainActivity, QuestionActivity::class.java))
         }
     }
 
     override fun onBackPressed() {
-        var tempTime = System.currentTimeMillis()
-        var intervalTime = tempTime - backPressedTime
+        val tempTime = System.currentTimeMillis()
+        val intervalTime = tempTime - backPressedTime
         if (intervalTime in 0..FINSH_INTERVAL_TIME) {
-            ActivityCompat.finishAffinity(this);
+            ActivityCompat.finishAffinity(this)
         } else {
-            backPressedTime = tempTime;
+            backPressedTime = tempTime
             Toast.makeText(applicationContext, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
         }
     }
