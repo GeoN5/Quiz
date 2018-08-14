@@ -8,3 +8,4 @@ class Question{
     var option4 : String = ""
     var answer : Int = 0
 }
+

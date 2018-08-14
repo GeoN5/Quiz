@@ -48,16 +48,16 @@ class QuestionActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val dialog = AlertDialog.Builder(this)
-        dialog.setTitle("Are you sure !")
-        dialog.setMessage("Do you want to stop?")
-        dialog.setPositiveButton("Yes") {
+         dialog.setTitle("Are you sure !")
+        .setMessage("Do you want to stop?")
+        .setPositiveButton("Yes") {
             dialog, which -> dialog.dismiss()
             super.onBackPressed()
         }
-        dialog.setNegativeButton("No"){
+        .setNegativeButton("No"){
             dialog, which -> dialog.dismiss()
         }
-        dialog.show()
+        .show()
     }
 
     fun updateQuestion() {
@@ -100,6 +100,7 @@ class QuestionActivity : AppCompatActivity() {
                 val editor = preferences.edit()
                 editor.putInt("pastScore", score)
                 editor.apply()
+                this.saveData("count",1)
                 startActivity(Intent(this@QuestionActivity, MainActivity::class.java))
                 finish()
             }
@@ -172,13 +173,13 @@ class QuestionActivity : AppCompatActivity() {
                 }
             }else{
                 val dialog = AlertDialog.Builder(this@QuestionActivity)
-                dialog.setTitle("Error")
-                dialog.setMessage("$result")
-                dialog.setPositiveButton("Close") {
+                .setTitle("Error")
+                .setMessage("$result")
+                .setPositiveButton("Close") {
                     dialog, which -> dialog.dismiss()
                     ActivityCompat.finishAffinity(this@QuestionActivity)
                 }
-                dialog.show()
+                .show()
             }
             super.onPostExecute(result)
         }

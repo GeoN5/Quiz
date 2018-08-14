@@ -21,9 +21,14 @@ class MainActivity : AppCompatActivity() {
         setListeners()
     }
 
+
     private fun init(){
+        var result = this.getData("count")
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val pastScore = preferences.getInt("pastScore", 0)
+        if(pastScore == 5 && result ==1){
+            trophy.playAnimation()
+        }
         val text = "Past Score : $pastScore"
         scoreText.text = text
         ratingBar.rating = pastScore.toFloat()
@@ -45,6 +50,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
         }
     }
-
 
 }
