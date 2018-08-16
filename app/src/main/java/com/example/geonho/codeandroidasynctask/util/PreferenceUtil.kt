@@ -1,4 +1,4 @@
-package com.example.geonho.codeandroidasynctask
+package com.example.geonho.codeandroidasynctask.util
 
 import android.content.Context
 import android.content.SharedPreferences

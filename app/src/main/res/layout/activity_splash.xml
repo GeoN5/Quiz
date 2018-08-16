@@ -14,12 +14,13 @@
         android:layout_height="200dp"
         android:layout_centerInParent="true"
         android:layout_marginBottom="50dp"
-        android:src="@drawable/appicon"/>
+        android:src="@drawable/appicon"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Android Quiz"
+        android:text="@string/splash_text"
         android:layout_below="@+id/image"
         android:layout_centerHorizontal="true"
         android:textSize="30sp"

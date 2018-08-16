@@ -2,6 +2,7 @@
 
 package com.example.geonho.codeandroidasynctask
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -19,20 +20,21 @@ import kotlinx.android.synthetic.main.activity_question.*
 import android.net.ConnectivityManager
 import android.support.v4.app.ActivityCompat
 import android.widget.Toast
+import com.example.geonho.codeandroidasynctask.util.saveData
 
 
 class QuestionActivity : AppCompatActivity() {
 
     var questionList: MutableList<Question> = ArrayList()
     var index = -1
-    var score = 0
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
 
         init()
-        getQuestions().execute()
+        GetQuestions().execute()
     }
 
     private fun init(){
@@ -47,8 +49,8 @@ class QuestionActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val dialog = AlertDialog.Builder(this)
-         dialog.setTitle("Are you sure !")
+         AlertDialog.Builder(this)
+        .setTitle("Are you sure !")
         .setMessage("Do you want to stop?")
         .setPositiveButton("Yes") {
             dialog, which -> dialog.dismiss()
@@ -94,7 +96,7 @@ class QuestionActivity : AppCompatActivity() {
                 choice4.text = questionList[index].option4
                 choiceGroup.clearCheck()
                 if ((index + 1) == questionList.size)
-                    nextButton.text = "Finish"
+                    nextButton.text = resources.getString(R.string.finish_button)
             } else {
                 val preferences = PreferenceManager.getDefaultSharedPreferences(this)
                 val editor = preferences.edit()
@@ -107,10 +109,12 @@ class QuestionActivity : AppCompatActivity() {
         }
     }
 
-    internal inner class getQuestions : AsyncTask<Void, Void, String>() {
 
-        var hasInternet = false
-        lateinit var progressDialog : ProgressDialog
+    @SuppressLint("StaticFieldLeak")
+    internal inner class GetQuestions : AsyncTask<Void, Void, String>() {
+
+        private var hasInternet = false
+        private lateinit var progressDialog : ProgressDialog
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -172,7 +176,7 @@ class QuestionActivity : AppCompatActivity() {
                     Log.d("result", "ClassCastException result : $result")
                 }
             }else{
-                val dialog = AlertDialog.Builder(this@QuestionActivity)
+                 AlertDialog.Builder(this@QuestionActivity)
                 .setTitle("Error")
                 .setMessage("$result")
                 .setPositiveButton("Close") {

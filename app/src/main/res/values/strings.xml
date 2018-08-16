@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Quiz App</string>
     <string name="server">https://script.googleusercontent.com/macros/echo?user_content_key=gRHnJyehxKcaUlhOA9bqC9F5DwIuQJb9N58BYgrLohJo60nubyzOgOabyPLYUKFoDzV8wnYkw_5Zmg4IrwujBa2rMhBl3mirm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnBg4Wj9So2Q_mI0_S0Bm21-AGmcRnplmVaRcxvVzvCi9cnQQJegsnVb9TgJzPufw35cdv3aNHr6K&amp;lib=MKMzvVvSFmMa3ZLOyg67WCThf1WVRYg6Z</string>
+    <string name="splash_text">Android Quiz</string>
+    <string name="next_button">Next</string>
+    <string name="score_text">Past Score : 0</string>
+    <string name="start_button">Start Quiz</string>
+    <string name="finish_button">Finish</string>
 </resources>

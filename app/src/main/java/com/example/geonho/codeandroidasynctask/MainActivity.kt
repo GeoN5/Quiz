@@ -6,11 +6,12 @@ import android.preference.PreferenceManager
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.example.geonho.codeandroidasynctask.util.getData
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val FINSH_INTERVAL_TIME = 2000
+    private val finishIntervalTime = 2000
     private var backPressedTime:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun init(){
-        var result = this.getData("count")
+        val result = this.getData("count")
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         val pastScore = preferences.getInt("pastScore", 0)
         if(pastScore == 5 && result ==1){
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val tempTime = System.currentTimeMillis()
         val intervalTime = tempTime - backPressedTime
-        if (intervalTime in 0..FINSH_INTERVAL_TIME) {
+        if (intervalTime in 0..finishIntervalTime) {
             ActivityCompat.finishAffinity(this)
         } else {
             backPressedTime = tempTime

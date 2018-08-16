@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:gravity="center"
-            android:text="Past Score : 0"
+            android:text="@string/score_text"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textSize="30sp" />
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:text="Start Quiz"
+            android:text="@string/start_button"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
